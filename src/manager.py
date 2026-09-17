@@ -1,6 +1,12 @@
 # password manager logic
-from crypto import decrypt, encrypt
-from pathlib import Path # only used for deleting the database
+import pyperclip
+import threading
+import os
+import subprocess
+import sys
+
+from pathlib import Path
+from crypto import encrypt, decrypt
 
 def add_password(con, key, service, username, password):
     encrypted_username = encrypt(key, username)
@@ -59,7 +65,8 @@ def get_password(con, key, service):
 
     print(f"service  : {service}")
     print(f"username : {username}")
-    print(f"password : {password}")
+    copy_password(password)
+    print("timer started, deleting password from clipboard in 30 seconds")
 
 
 def list_services(con):
@@ -92,3 +99,15 @@ def delete_password(con, service):
     else:
         print(f"no entry found for '{service}'")
 
+def copy_password(password):
+    pyperclip.copy(password)
+
+    def clear_clipboard():
+        try:
+            if pyperclip.paste() == password:
+                pyperclip.copy("")
+        except Exception:
+            pass
+
+    timer = threading.Timer(30.0, clear_clipboard)
+    timer.start()
