@@ -8,6 +8,7 @@ from manager import (
     delete_password,
     get_password,
     list_services,
+    delete_database,
 )
 
 def create_parser():
@@ -52,6 +53,11 @@ def create_parser():
         help="delete a password",
     )
 
+    clean_parser = subparsers.add_parser(
+        "clean",
+        help="deletes the full database permanently",
+    )
+
     delete_parser.add_argument("service")
 
     return parser
@@ -93,6 +99,8 @@ def main():
                 conn,
                 args.service,
             )
+        elif args.command == "clean":
+            delete_database()
 
     finally:
         conn.close()

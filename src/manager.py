@@ -1,6 +1,6 @@
 # password manager logic
 from crypto import decrypt, encrypt
-
+from pathlib import Path # only used for deleting the database
 
 def add_password(con, key, service, username, password):
     encrypted_username = encrypt(key, username)
@@ -30,6 +30,14 @@ def add_password(con, key, service, username, password):
             print(f"an entry for '{service}' already exists")
         else:
             raise
+
+def delete_database():
+    confirm = input("You sure you want to do this? (y/n): ").strip().lower()
+    confirm2 = input("Second warning... (y/n): ").strip().lower()
+
+    if confirm == "y" and confirm2 == "y":
+        file_path = Path("~/.vaultcli.db").expanduser()
+        file_path.unlink(missing_ok=True)
 
 
 def get_password(con, key, service):

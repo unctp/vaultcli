@@ -11,7 +11,18 @@ source code:                                    |
 ├── main.py - entry point for the program       |
 └── manager.py - password manager logic         |
                                                 |
+arguments:                                      |
+  clean - deletes the database                  |
+  add <service> <username> - adds a password    |
+  delete <service> - deletes a password         |
+  get <service> - prints a password             |
+  list - lists services                         |
+                                                |
+default encryption configuration:               |
+PBKDF2: 600,000 iterations                      |
+cipher: AES-GCM                                 |
+                                                |
 TODO:                                           |
-will copy and delete after two minutes          |
+it will copy and delete after two minutes       |
 instead of printing it directly to the console  |
 ________________________________________________-
